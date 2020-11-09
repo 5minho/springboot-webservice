@@ -3,12 +3,15 @@ package me.minho.springboot.service;
 import lombok.RequiredArgsConstructor;
 import me.minho.springboot.domain.posts.Posts;
 import me.minho.springboot.domain.posts.PostsRepository;
+import me.minho.springboot.web.dto.PostsListResponseDto;
 import me.minho.springboot.web.dto.PostsResponseDto;
 import me.minho.springboot.web.dto.PostsSaveRequestDto;
 import me.minho.springboot.web.dto.PostsUpdateRequestDto;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -33,4 +36,20 @@ public class PostsService {
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id)));
     }
+
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc() {
+        return postsRepository.findAllDesc()
+                .stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Posts posts = postsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+        postsRepository.delete(posts);
+    }
+
 }
