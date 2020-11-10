@@ -1,5 +1,6 @@
 package me.minho.springboot.config.auth.dto;
 
+import com.sun.org.apache.regexp.internal.RE;
 import lombok.Builder;
 import lombok.Getter;
 import me.minho.springboot.domain.user.Role;
@@ -26,7 +27,21 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
+        if ("naver".equals(registrationId)) {
+            return ofNaver("id", attributes);
+        }
         return ofGoogle(userNameAttributeName, attributes);
+    }
+
+    private static OAuthAttributes ofNaver(String userNameAttrubuteName, Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        return OAuthAttributes.builder()
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .picture((String) response.get("profileImage"))
+                .attributes(response)
+                .nameAttributeKey(userNameAttrubuteName)
+                .build();
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
