@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @RequiredArgsConstructor
 @EnableWebSecurity // Spring Security 설정들을 활성화 시킴
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter { // servlet filter 에서 사용할 Security 정보를 구성하기 위한 어댑터
 
     private final CustomOAuth2UserService customOAuth2UserService;
     @Override
@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST,"/api/v1/**").hasRole(Role.USER.name()) // POST 메소드로 /api/v1/** 를 가진 api 는 USER 권한 가진 사람만
                     .anyRequest().authenticated() // 나머지 URL 들은 모두 인증된 (로그인된) 사용자에만 허용
                 .and()
-                    .logout()
+                    .logout() // 로그아웃 처리 진입점
                         .logoutSuccessUrl("/") // 로그아웃 성공시 "/" 로 리다이렉트
                 .and()
                     .oauth2Login() // oauth2 로그인 기능에 대한 설정들의 진입점

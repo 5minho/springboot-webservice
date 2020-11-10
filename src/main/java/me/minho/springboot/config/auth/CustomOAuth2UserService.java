@@ -32,6 +32,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2UserService delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
+        // resource server 에서 가져온 유저 정보를 이용해 후속 처리를 한다.
+
         String registrationId = userRequest.getClientRegistration()
                 .getRegistrationId(); // 현재 로그인 진행 중인 서비스를 구분하는 id
 
