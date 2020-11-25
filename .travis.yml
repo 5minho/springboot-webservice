@@ -39,3 +39,15 @@ deploy:
     acl: private # zip 파일 접근을 private으로
     local_dir: deploy # 여기서 지정한 디렉토리 위치의 파일들만 S3로 전송
     wait-until-deployed: true
+    # 아래 부분 추가
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: miristudy-ci-cd # S3 버킷
+    key: springboot-webservice.zip
+    bundle_type: zip
+    application: miristudy-webservice
+    # CodeDeploy Application name
+    deployment_group: miristudy-webservice-deploy
+    region: ap-northeast-2
+    wait-until-deployed: true
