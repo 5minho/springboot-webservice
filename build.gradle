@@ -23,7 +23,7 @@ repositories{
 }
 
 group 'me.minho'
-version '1.0-SNAPSHOT'
+version '1.0-SNAPSHOT-' + new Date().format("yyyyMMddHHmmss")
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
