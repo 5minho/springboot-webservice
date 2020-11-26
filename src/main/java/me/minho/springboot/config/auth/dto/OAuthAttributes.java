@@ -1,6 +1,5 @@
 package me.minho.springboot.config.auth.dto;
 
-import com.sun.org.apache.regexp.internal.RE;
 import lombok.Builder;
 import lombok.Getter;
 import me.minho.springboot.domain.user.Role;
